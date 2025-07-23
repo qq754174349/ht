@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package mail.v1;
+
+option go_package = "github.com/qq754174349/ht/notification/pkg/grpc/mail;mail";
+import "google/protobuf/empty.proto";
+
+// 服务定义
+service MailService {
+  rpc Send (google.protobuf.Empty) returns (google.protobuf.Empty);
+}

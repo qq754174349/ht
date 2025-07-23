@@ -1,0 +1,14 @@
+version: v2
+plugins:
+  - remote: buf.build/protocolbuffers/go
+    out: ./
+    opt:
+      - paths=import
+      - module=github.com/qq754174349/ht/notification
+  - remote: buf.build/grpc/go
+    out: ./
+    opt:
+      - paths=import
+      - module=github.com/qq754174349/ht/notification
+inputs:
+  - directory: .

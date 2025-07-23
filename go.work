@@ -1,0 +1,17 @@
+go 1.23.8
+
+toolchain go1.24.4
+
+use (
+	./ht-frame/autoconfigure
+	./ht-frame/common
+	./ht-frame/config
+	./ht-frame/consul
+	./ht-frame/grpc
+	./ht-frame/logger
+	./ht-frame/mysql
+	./ht-frame/redis
+	./ht-frame/web
+	./ht-notification
+	./ht-user
+)
