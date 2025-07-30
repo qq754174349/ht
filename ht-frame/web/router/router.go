@@ -3,7 +3,7 @@ package router
 import (
 	"context"
 	"github.com/gin-gonic/gin"
-	"github.com/qq754174349/ht-frame/common/result"
+	"github.com/qq754174349/ht/ht-frame/common/result"
 	"net/http"
 	"time"
 )

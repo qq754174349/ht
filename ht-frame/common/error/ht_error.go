@@ -3,7 +3,7 @@ package error
 import (
 	"context"
 	"encoding/json"
-	result2 "github.com/qq754174349/ht-frame/common/result"
+	result2 "github.com/qq754174349/ht/ht-frame/common/result"
 )
 
 type HtError struct {
@@ -13,7 +13,7 @@ type HtError struct {
 }
 
 func (e *HtError) Error() string {
-	res, _ := json.Marshal(result2.NewResult(e.context, e.Code, e.Msg, nil))
+	res, _ := json.Marshal(result2.NewResult(e.context, e.Code, e.Msg, struct{}{}))
 	return string(res)
 }
 

@@ -1,7 +1,7 @@
 package routes
 
 import (
-	"github.com/qq754174349/ht-frame/web/router"
+	"github.com/qq754174349/ht/ht-frame/web/router"
 	"ht-notification/internal/controller/mail"
 )
 

@@ -1,8 +1,8 @@
-package routes
+package http
 
 import (
-	"github.com/qq754174349/ht-frame/web/router"
-	"ht-user/internal/controller/user"
+	"github.com/qq754174349/ht/ht-frame/web/router"
+	"ht-user/internal/interface/http/handler/user"
 )
 
 func RegisterRoutes(router *router.Registrar) {

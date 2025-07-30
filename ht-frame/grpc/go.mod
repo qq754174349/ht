@@ -1,6 +1,6 @@
-module github.com/qq754174349/ht-frame/grpc
+module github.com/qq754174349/ht/ht-frame/grpc
 
-go 1.23.8
+go 1.24.4
 
 toolchain go1.24.4
 

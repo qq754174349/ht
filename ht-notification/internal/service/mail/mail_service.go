@@ -3,7 +3,7 @@ package mail
 import (
 	"context"
 	"fmt"
-	log "github.com/qq754174349/ht-frame/logger"
+	log "github.com/qq754174349/ht/ht-frame/logger"
 	"google.golang.org/grpc"
 	"google.golang.org/protobuf/types/known/emptypb"
 	"gopkg.in/gomail.v2"

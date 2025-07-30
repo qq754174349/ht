@@ -3,12 +3,12 @@ package service
 import (
 	"fmt"
 	"github.com/hashicorp/consul/api"
-	"github.com/qq754174349/ht-frame/autoconfigure"
-	"github.com/qq754174349/ht-frame/common/utils"
-	baseConfig "github.com/qq754174349/ht-frame/config"
-	"github.com/qq754174349/ht-frame/consul"
-	grpcCfg "github.com/qq754174349/ht-frame/grpc/config"
-	"github.com/qq754174349/ht-frame/logger"
+	"github.com/qq754174349/ht/ht-frame/autoconfigure"
+	"github.com/qq754174349/ht/ht-frame/common/utils"
+	baseConfig "github.com/qq754174349/ht/ht-frame/config"
+	"github.com/qq754174349/ht/ht-frame/consul"
+	grpcCfg "github.com/qq754174349/ht/ht-frame/grpc/config"
+	"github.com/qq754174349/ht/ht-frame/logger"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/health"
 	"google.golang.org/grpc/health/grpc_health_v1"
@@ -127,6 +127,10 @@ func (AutoConfig) Init() error {
 		}
 	}()
 
+	return nil
+}
+
+func (AutoConfig) Close() error {
 	return nil
 }
 

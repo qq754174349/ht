@@ -1,6 +1,6 @@
 package config
 
-import "github.com/qq754174349/ht-frame/autoconfigure"
+import "github.com/qq754174349/ht/ht-frame/autoconfigure"
 
 var config *GRpc
 

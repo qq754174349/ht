@@ -1,4 +1,4 @@
-go 1.23.8
+go 1.24.4
 
 toolchain go1.24.4
 
@@ -9,7 +9,7 @@ use (
 	./ht-frame/consul
 	./ht-frame/grpc
 	./ht-frame/logger
-	./ht-frame/mysql
+	./ht-frame/orm
 	./ht-frame/redis
 	./ht-frame/web
 	./ht-notification

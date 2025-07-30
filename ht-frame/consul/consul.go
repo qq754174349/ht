@@ -3,8 +3,8 @@ package consul
 import (
 	"fmt"
 	"github.com/hashicorp/consul/api"
-	"github.com/qq754174349/ht-frame/autoconfigure"
-	log "github.com/qq754174349/ht-frame/logger"
+	"github.com/qq754174349/ht/ht-frame/autoconfigure"
+	log "github.com/qq754174349/ht/ht-frame/logger"
 	"time"
 )
 
@@ -36,6 +36,10 @@ func (AutoConfig) Init() error {
 	if err != nil {
 		return fmt.Errorf("创建 Consul 客户端失败: %v", err)
 	}
+	return nil
+}
+
+func (AutoConfig) Close() error {
 	return nil
 }
 

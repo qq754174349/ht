@@ -2,11 +2,11 @@ package main
 
 import (
 	"flag"
-	"github.com/qq754174349/ht-frame/autoconfigure"
-	"github.com/qq754174349/ht-frame/grpc/service"
-	_ "github.com/qq754174349/ht-frame/mysql"
-	_ "github.com/qq754174349/ht-frame/redis"
-	"github.com/qq754174349/ht-frame/web"
+	"github.com/qq754174349/ht/ht-frame/autoconfigure"
+	"github.com/qq754174349/ht/ht-frame/grpc/service"
+	_ "github.com/qq754174349/ht/ht-frame/orm/mysql"
+	_ "github.com/qq754174349/ht/ht-frame/redis"
+	"github.com/qq754174349/ht/ht-frame/web"
 	"ht-notification/internal/routes"
 	"ht-notification/internal/service/mail"
 )

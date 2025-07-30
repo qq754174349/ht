@@ -1,8 +1,8 @@
 package mail
 
 import (
-	"github.com/qq754174349/ht-frame/autoconfigure"
-	"github.com/qq754174349/ht-frame/logger"
+	"github.com/qq754174349/ht/ht-frame/autoconfigure"
+	"github.com/qq754174349/ht/ht-frame/logger"
 )
 
 var config *Mail
@@ -29,6 +29,10 @@ type Configuration struct {
 }
 
 func (Configuration) Init() error {
+	return nil
+}
+
+func (Configuration) Close() error {
 	return nil
 }
 

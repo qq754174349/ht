@@ -4,8 +4,9 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
-	"github.com/qq754174349/ht-frame/autoconfigure"
-	"github.com/qq754174349/ht-frame/logger"
+	"github.com/qq754174349/ht/ht-frame/autoconfigure"
+	"github.com/qq754174349/ht/ht-frame/logger"
+	"github.com/qq754174349/ht/ht-frame/orm/config"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/schema"
@@ -14,7 +15,7 @@ import (
 )
 
 var (
-	mysqlInstances sync.Map // 存储所有MySQL实例
+	mysqlInstances sync.Map
 	defaultName    string
 	gormConfig     = &gorm.Config{
 		NamingStrategy: schema.NamingStrategy{
@@ -22,20 +23,7 @@ var (
 		},
 		PrepareStmt: true,
 	}
-	config *Mysql
 )
-
-type Mysql struct {
-	Mysql map[string]Config `yaml:"mysql" mapstructure:"mysql"`
-}
-
-type Config struct {
-	Host     string
-	Port     string
-	User     string
-	Password string
-	Database string
-}
 
 type AutoConfig struct{}
 
@@ -47,10 +35,9 @@ func init() {
 }
 
 func (AutoConfig) Init() error {
-	config = &Mysql{}
-	autoconfigure.ConfigRead(config)
+	orm := config.GetConfig()
 	first := true
-	for name, mysqlCfg := range config.Mysql {
+	for name, mysqlCfg := range orm.Orm.Mysql {
 		if err := initMySQL(mysqlCfg, name); err != nil {
 			return fmt.Errorf("MySQL[%s]初始化失败: %v", name, err)
 		}
@@ -67,7 +54,21 @@ func (AutoConfig) Init() error {
 	return nil
 }
 
-func initMySQL(cfg Config, name string) error {
+func (AutoConfig) Close() error {
+	mysqlInstances.Range(func(key, value interface{}) bool {
+		if db, ok := value.(*gorm.DB); ok {
+			if sqlDB, err := db.DB(); err == nil {
+				_ = sqlDB.Close()
+				logger.Infof("MySQL[%v]已关闭", key)
+			}
+		}
+		return true
+	})
+
+	return nil
+}
+
+func initMySQL(cfg config.Mysql, name string) error {
 	dsn := buildDSN(cfg)
 	db, err := gorm.Open(mysql.Open(dsn), gormConfig)
 	if err != nil {
@@ -112,13 +113,12 @@ func Get(name ...string) (*gorm.DB, error) {
 	return db, nil
 }
 
-// 内部工具函数
-func buildDSN(cfg Config) string {
-	return fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local&timeout=5s",
+func buildDSN(cfg config.Mysql) string {
+	return fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=true&loc=Local&timeout=5s",
 		cfg.User, cfg.Password, cfg.Host, cfg.Port, cfg.Database)
 }
 
-func configurePool(sqlDB *sql.DB, cfg Config) {
+func configurePool(sqlDB *sql.DB, cfg config.Mysql) {
 	maxIdle := 10
 
 	sqlDB.SetMaxIdleConns(maxIdle)
@@ -132,7 +132,7 @@ func ping(db *sql.DB) error {
 	return db.PingContext(ctx)
 }
 
-func monitor(name string, db *gorm.DB, cfg Config) {
+func monitor(name string, db *gorm.DB, cfg config.Mysql) {
 	ticker := time.NewTicker(30 * time.Second)
 	defer ticker.Stop()
 
@@ -144,7 +144,7 @@ func monitor(name string, db *gorm.DB, cfg Config) {
 	}
 }
 
-func reconnect(name string, cfg Config) error {
+func reconnect(name string, cfg config.Mysql) error {
 	if val, ok := mysqlInstances.Load(name); ok {
 		if db, ok := val.(*gorm.DB); ok {
 			if sqlDB, err := db.DB(); err == nil {
@@ -156,41 +156,18 @@ func reconnect(name string, cfg Config) error {
 	return initMySQL(cfg, name)
 }
 
-// verify 验证数据库连接是否健康
 func verify(db *gorm.DB) error {
-	// 获取底层sql.DB
 	sqlDB, err := db.DB()
 	if err != nil {
 		return fmt.Errorf("获取连接池失败: %v", err)
 	}
 
-	// 设置超时上下文
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
 
-	// 执行Ping测试
 	if err := sqlDB.PingContext(ctx); err != nil {
 		return fmt.Errorf("连接不可用: %v", err)
 	}
 
-	// 可选：检查数据库版本（增强验证）
-	//var version string
-	//if err := mysql.Raw("SELECT VERSION()").Scan(&version).Error; err != nil {
-	//	return fmt.Errorf("数据库版本检查失败: %v", err)
-	//}
-	//
-	//logger.Debugf("数据库连接正常，版本: %s", version)
 	return nil
-}
-
-func CloseAllMySQL() {
-	mysqlInstances.Range(func(key, value interface{}) bool {
-		if db, ok := value.(*gorm.DB); ok {
-			if sqlDB, err := db.DB(); err == nil {
-				_ = sqlDB.Close()
-				logger.Infof("MySQL[%v]已关闭", key)
-			}
-		}
-		return true
-	})
 }

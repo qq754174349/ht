@@ -4,8 +4,8 @@ import (
 	"context"
 	"fmt"
 	"github.com/go-redis/redis/v8"
-	"github.com/qq754174349/ht-frame/autoconfigure"
-	"github.com/qq754174349/ht-frame/logger"
+	"github.com/qq754174349/ht/ht-frame/autoconfigure"
+	"github.com/qq754174349/ht/ht-frame/logger"
 	"sync"
 	"time"
 )
@@ -53,6 +53,17 @@ func (AutoConfig) Init() error {
 	if defaultName == "" {
 		return fmt.Errorf("至少需要配置一个Redis数据源")
 	}
+	return nil
+}
+
+func (AutoConfig) Close() error {
+	redisInstances.Range(func(key, value interface{}) bool {
+		if client, ok := value.(*redis.Client); ok {
+			_ = client.Close()
+			logger.Infof("Redis[%v]已关闭", key)
+		}
+		return true
+	})
 	return nil
 }
 
@@ -146,14 +157,4 @@ func verify(client *redis.Client) error {
 
 	logger.Debugf("Redis连接正常 (活跃连接: %d)", poolStats.IdleConns)
 	return nil
-}
-
-func CloseAllRedis() {
-	redisInstances.Range(func(key, value interface{}) bool {
-		if client, ok := value.(*redis.Client); ok {
-			_ = client.Close()
-			logger.Infof("Redis[%v]已关闭", key)
-		}
-		return true
-	})
 }

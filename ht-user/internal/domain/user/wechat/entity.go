@@ -1,7 +1,7 @@
-package model
+package wechat
 
 import (
-	"github.com/qq754174349/ht-frame/mysql"
+	"github.com/qq754174349/ht/ht-frame/orm/mysql"
 )
 
 type UserWechatInfo struct {

@@ -1,11 +1,11 @@
-package model
+package base
 
 import (
-	"github.com/qq754174349/ht-frame/mysql"
+	"github.com/qq754174349/ht/ht-frame/orm/mysql"
 	"time"
 )
 
-type BaseInfo struct {
+type UserBaseInfo struct {
 	mysql.Model
 	//用户名
 	Username string `gorm:"type:varchar(16)"`
@@ -18,11 +18,11 @@ type BaseInfo struct {
 	// 密码
 	Password string `gorm:"type:varchar(30)"`
 	// 昵称
-	Nickname string `gorm:"type:varchar(30)"`
+	NickName string `gorm:"type:varchar(30)"`
 	// 头像
 	AvatarUrl string `gorm:"type:varchar(500)"`
 	// 状态 0：待激活 1：已激活
 	Status int8 `gorm:"type:tinyint(1)"`
 	// 激活时间
-	ActivateTime time.Time `gorm:"type:datetime"`
+	ActivateTime *time.Time `gorm:"type:datetime"`
 }

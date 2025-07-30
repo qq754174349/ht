@@ -1,9 +1,9 @@
 package logger
 
 import (
-	"github.com/qq754174349/ht-frame/autoconfigure"
-	"github.com/qq754174349/ht-frame/logger/internal"
-	"github.com/qq754174349/ht-frame/logger/logiface"
+	"github.com/qq754174349/ht/ht-frame/autoconfigure"
+	"github.com/qq754174349/ht/ht-frame/logger/internal"
+	"github.com/qq754174349/ht/ht-frame/logger/logiface"
 	"io"
 )
 
@@ -29,6 +29,10 @@ func (AutoConfig) Init() error {
 	autoconfigure.ConfigRead(config)
 	logConfig := config.Log
 	InitLogger(logConfig)
+	return nil
+}
+
+func (AutoConfig) Close() error {
 	return nil
 }
 

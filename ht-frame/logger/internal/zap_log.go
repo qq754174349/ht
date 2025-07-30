@@ -3,7 +3,7 @@ package internal
 import (
 	"fmt"
 	"github.com/natefinch/lumberjack"
-	"github.com/qq754174349/ht-frame/logger/logiface"
+	"github.com/qq754174349/ht/ht-frame/logger/logiface"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 	"io"

@@ -7,14 +7,14 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/hashicorp/consul/api"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
-	"github.com/qq754174349/ht-frame/autoconfigure"
-	"github.com/qq754174349/ht-frame/common/utils"
-	baseConfig "github.com/qq754174349/ht-frame/config"
-	"github.com/qq754174349/ht-frame/consul"
-	_ "github.com/qq754174349/ht-frame/grpc/service"
-	"github.com/qq754174349/ht-frame/logger"
-	"github.com/qq754174349/ht-frame/web/middlewares"
-	"github.com/qq754174349/ht-frame/web/router"
+	"github.com/qq754174349/ht/ht-frame/autoconfigure"
+	"github.com/qq754174349/ht/ht-frame/common/utils"
+	baseConfig "github.com/qq754174349/ht/ht-frame/config"
+	"github.com/qq754174349/ht/ht-frame/consul"
+	_ "github.com/qq754174349/ht/ht-frame/grpc/service"
+	"github.com/qq754174349/ht/ht-frame/logger"
+	"github.com/qq754174349/ht/ht-frame/web/middlewares"
+	"github.com/qq754174349/ht/ht-frame/web/router"
 	"net"
 	"net/http"
 	"os"
@@ -64,6 +64,10 @@ func (AutoConfig) Init() error {
 	} else if appCig.Active == "test" {
 		gin.SetMode(gin.TestMode)
 	}
+	return nil
+}
+
+func (AutoConfig) Close() error {
 	return nil
 }
 
@@ -117,7 +121,8 @@ func GracefulShutdown(srv *http.Server) {
 	<-quit
 	logger.Info("web接收到关闭信号，开始优雅关闭...")
 	consul.Deregister(baseConfig.GetAppCfg().AppName)
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	autoconfigure.Close()
+	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
 	defer cancel()
 	if err := srv.Shutdown(ctx); err != nil {
 		logger.Errorf("web服务器关闭错误: %v", err)

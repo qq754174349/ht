@@ -3,7 +3,7 @@ package autoconfigure
 
 import (
 	"fmt"
-	"github.com/qq754174349/ht-frame/config"
+	"github.com/qq754174349/ht/ht-frame/config"
 	"github.com/spf13/viper"
 	"log"
 )
@@ -20,6 +20,7 @@ var (
 
 type Configuration interface {
 	Init() error
+	Close() error
 }
 
 func init() {
@@ -64,6 +65,15 @@ func Bootstrap(active string) {
 	}
 	config.SetAppCfg(appCfg)
 	autoConfigure()
+}
+
+func Close() {
+	for _, v := range initializers {
+		err := v.Close()
+		if err != nil {
+			log.Fatal(err)
+		}
+	}
 }
 
 func autoConfigure() {

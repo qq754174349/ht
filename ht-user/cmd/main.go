@@ -2,11 +2,11 @@ package main
 
 import (
 	"flag"
-	"github.com/qq754174349/ht-frame/autoconfigure"
-	_ "github.com/qq754174349/ht-frame/mysql"
-	_ "github.com/qq754174349/ht-frame/redis"
-	"github.com/qq754174349/ht-frame/web"
-	"ht-user/internal/routes"
+	"github.com/qq754174349/ht/ht-frame/autoconfigure"
+	_ "github.com/qq754174349/ht/ht-frame/orm/mysql"
+	_ "github.com/qq754174349/ht/ht-frame/redis"
+	"github.com/qq754174349/ht/ht-frame/web"
+	"ht-user/internal/interface/http"
 )
 
 func main() {
@@ -15,7 +15,7 @@ func main() {
 
 	autoconfigure.Bootstrap(*active)
 
-	err := web.Run(routes.RegisterRoutes)
+	err := web.Run(http.RegisterRoutes)
 	if err != nil {
 		return
 	}

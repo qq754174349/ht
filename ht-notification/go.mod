@@ -1,17 +1,9 @@
 module ht-notification
 
-go 1.23.6
+go 1.24.4
 
 require (
 	github.com/gin-gonic/gin v1.10.0
-	github.com/qq754174349/ht-frame/autoconfigure v0.0.0-20250430024847-dbdd22edd3a6
-	github.com/qq754174349/ht-frame/common v0.0.0-20250430024847-dbdd22edd3a6
-	github.com/qq754174349/ht-frame/consul v0.0.0-20250429072719-4adc4873c5f1
-	github.com/qq754174349/ht-frame/logger v0.0.0-20250429072719-4adc4873c5f1
-	github.com/qq754174349/ht-frame/mysql v0.0.0-20250429072719-4adc4873c5f1
-	github.com/qq754174349/ht-frame/redis v0.0.0-20250429072719-4adc4873c5f1
-	github.com/qq754174349/ht-frame/web v0.0.0-20250430024847-dbdd22edd3a6
-	github.com/spf13/viper v1.20.1
 )
 
 require (
@@ -66,8 +58,6 @@ require (
 	github.com/prometheus/client_model v0.6.2 // indirect
 	github.com/prometheus/common v0.63.0 // indirect
 	github.com/prometheus/procfs v0.16.1 // indirect
-	github.com/qq754174349/ht-frame/config v0.0.0-20250429072719-4adc4873c5f1 // indirect
-	github.com/qq754174349/ht-frame/db v0.0.0-20250421021453-44e0eddd2271 // indirect
 	github.com/sagikazarmark/locafero v0.9.0 // indirect
 	github.com/sagikazarmark/slog-shim v0.1.0 // indirect
 	github.com/sourcegraph/conc v0.3.0 // indirect
