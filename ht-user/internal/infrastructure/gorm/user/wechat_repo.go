@@ -2,9 +2,10 @@ package user
 
 import (
 	"context"
+
 	"github.com/qq754174349/ht/ht-frame/orm/mysql"
 	"github.com/qq754174349/ht/ht-frame/orm/tx"
-	"ht-user/internal/domain/user/wechat"
+	"github.com/qq754174349/ht/ht-user/internal/domain/user/wechat"
 )
 
 type WechatRepo struct {

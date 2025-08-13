@@ -1,4 +1,4 @@
-module ht-user
+module github.com/qq754174349/ht/ht-user
 
 go 1.24.4
 

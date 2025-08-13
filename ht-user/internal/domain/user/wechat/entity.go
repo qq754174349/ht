@@ -13,5 +13,5 @@ type UserWechatInfo struct {
 	// 微信头像
 	AvatarUrl string `gorm:"type:varchar(255)"`
 	// 微信openId
-	OpenId string `gorm:"type:varchar(32)"`
+	OpenId *string `gorm:"type:varchar(32)"`
 }

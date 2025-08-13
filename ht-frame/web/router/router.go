@@ -64,7 +64,7 @@ func wrapHandlers(timeout time.Duration, handlers ...gin.HandlerFunc) []gin.Hand
 					panic(err)
 				}
 			case <-ctx.Done():
-				c.Writer.WriteString(result.NewFailResult(ctx, "服务器繁忙").ToString())
+				c.Writer.WriteString(result.NewFailResult(c, "服务器繁忙").ToString())
 				c.Abort()
 				return
 			}

@@ -1,8 +1,8 @@
-package routes
+package http
 
 import (
 	"github.com/qq754174349/ht/ht-frame/web/router"
-	"ht-notification/internal/controller/mail"
+	"github.com/qq754174349/ht/ht-notification/internal/interface/http/handler"
 )
 
 func RegisterRoutes(router *router.Registrar) {
@@ -10,7 +10,7 @@ func RegisterRoutes(router *router.Registrar) {
 	{
 		mailGroup := apiGroup.Group("/mail")
 		{
-			mailGroup.GET("/send", mail.Send)
+			mailGroup.GET("/SendTextMail", handler.SendTextMail)
 		}
 	}
 }

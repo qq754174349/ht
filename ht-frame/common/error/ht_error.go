@@ -25,6 +25,10 @@ func NewHtErrorFromMsg(ctx context.Context, msg string) *HtError {
 	return &HtError{Code: result2.FAILURE.Code, Msg: msg, context: ctx}
 }
 
+func NewBaseHtError(ctx context.Context) *HtError {
+	return &HtError{Code: result2.FAILURE.Code, Msg: result2.FAILURE.Msg, context: ctx}
+}
+
 func NewHtErrorFromTemplate(ctx context.Context, template result2.Template) *HtError {
 	return &HtError{Code: template.Code, Msg: template.Msg, context: ctx}
 }

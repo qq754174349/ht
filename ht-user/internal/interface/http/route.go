@@ -2,7 +2,7 @@ package http
 
 import (
 	"github.com/qq754174349/ht/ht-frame/web/router"
-	"ht-user/internal/interface/http/handler/user"
+	"github.com/qq754174349/ht/ht-user/internal/interface/http/handler/user"
 )
 
 func RegisterRoutes(router *router.Registrar) {
@@ -12,7 +12,8 @@ func RegisterRoutes(router *router.Registrar) {
 		{
 			userGroup.POST("/wechat/login", user.WechatUserLogin).
 				POST("/wechat/reg", user.WechatUserReg).
-				GET("/mail/reg", user.MailReg)
+				POST("/mail/reg", user.MailReg).
+				GET("/activate", user.Activate)
 		}
 	}
 	authGroup := router.Group("api/auth")

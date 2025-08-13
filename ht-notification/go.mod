@@ -1,4 +1,4 @@
-module ht-notification
+module github.com/qq754174349/ht/ht-notification
 
 go 1.24.4
 

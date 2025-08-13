@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.5.1
 // - protoc             (unknown)
-// source: api/protobuf/mail/mail.proto
+// source: proto/mail/mail.proto
 
 package mail
 
@@ -20,7 +20,7 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	MailService_Send_FullMethodName = "/mail.v1.MailService/Send"
+	MailService_SendTextMail_FullMethodName = "/mail.v1.MailService/SendTextMail"
 )
 
 // MailServiceClient is the client API for MailService service.
@@ -29,7 +29,7 @@ const (
 //
 // 服务定义
 type MailServiceClient interface {
-	Send(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	SendTextMail(ctx context.Context, in *TextMailReq, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
 
 type mailServiceClient struct {
@@ -40,10 +40,10 @@ func NewMailServiceClient(cc grpc.ClientConnInterface) MailServiceClient {
 	return &mailServiceClient{cc}
 }
 
-func (c *mailServiceClient) Send(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+func (c *mailServiceClient) SendTextMail(ctx context.Context, in *TextMailReq, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(emptypb.Empty)
-	err := c.cc.Invoke(ctx, MailService_Send_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, MailService_SendTextMail_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -56,7 +56,7 @@ func (c *mailServiceClient) Send(ctx context.Context, in *emptypb.Empty, opts ..
 //
 // 服务定义
 type MailServiceServer interface {
-	Send(context.Context, *emptypb.Empty) (*emptypb.Empty, error)
+	SendTextMail(context.Context, *TextMailReq) (*emptypb.Empty, error)
 	mustEmbedUnimplementedMailServiceServer()
 }
 
@@ -67,8 +67,8 @@ type MailServiceServer interface {
 // pointer dereference when methods are called.
 type UnimplementedMailServiceServer struct{}
 
-func (UnimplementedMailServiceServer) Send(context.Context, *emptypb.Empty) (*emptypb.Empty, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Send not implemented")
+func (UnimplementedMailServiceServer) SendTextMail(context.Context, *TextMailReq) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SendTextMail not implemented")
 }
 func (UnimplementedMailServiceServer) mustEmbedUnimplementedMailServiceServer() {}
 func (UnimplementedMailServiceServer) testEmbeddedByValue()                     {}
@@ -91,20 +91,20 @@ func RegisterMailServiceServer(s grpc.ServiceRegistrar, srv MailServiceServer) {
 	s.RegisterService(&MailService_ServiceDesc, srv)
 }
 
-func _MailService_Send_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(emptypb.Empty)
+func _MailService_SendTextMail_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(TextMailReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(MailServiceServer).Send(ctx, in)
+		return srv.(MailServiceServer).SendTextMail(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: MailService_Send_FullMethodName,
+		FullMethod: MailService_SendTextMail_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MailServiceServer).Send(ctx, req.(*emptypb.Empty))
+		return srv.(MailServiceServer).SendTextMail(ctx, req.(*TextMailReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -117,10 +117,10 @@ var MailService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*MailServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "Send",
-			Handler:    _MailService_Send_Handler,
+			MethodName: "SendTextMail",
+			Handler:    _MailService_SendTextMail_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "api/protobuf/mail/mail.proto",
+	Metadata: "proto/mail/mail.proto",
 }

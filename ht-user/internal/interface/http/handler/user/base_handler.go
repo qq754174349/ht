@@ -1,10 +1,11 @@
 package user
 
 import (
+	req3 "github.com/qq754174349/ht/ht-user/internal/interface/dto/req"
+	"github.com/qq754174349/ht/ht-user/internal/usecase/user"
+
 	"github.com/gin-gonic/gin"
 	"github.com/qq754174349/ht/ht-frame/common/result"
-	req3 "ht-user/internal/interface/dto/req"
-	"ht-user/internal/usecase/user"
 )
 
 var userUseCase = user.NewUserUseCase()
@@ -32,7 +33,22 @@ func MailReg(ctx *gin.Context) {
 	req := req3.EmailRegReq{}
 	ctx.ShouldBindJSON(&req)
 
-	//user.EMailReg(ctx, req)
+	err := userUseCase.EMailReg(ctx, req)
+	if err != nil {
+		ctx.Writer.WriteString(err.Error())
+		return
+	}
+
+	ctx.Writer.WriteString(result.NewBaseSuccessResult(ctx).ToString())
+}
+
+// Activate 用户激活
+func Activate(ctx *gin.Context) {
+	token := ctx.Query("token")
+	err := userUseCase.UserActivate(ctx, token)
+	if err != nil {
+		ctx.Writer.WriteString(err.Error())
+	}
 
 	ctx.Writer.WriteString(result.NewBaseSuccessResult(ctx).ToString())
 }
